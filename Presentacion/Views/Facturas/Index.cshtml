@@ -1,0 +1,60 @@
+﻿@model IEnumerable<Datos.Facturas>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Crear", "Create")
+</p>
+<table class="table">
+    <tr>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Fecha)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NumeroFactura)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Nombrecliente)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Documentocliente)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Total)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @item.Fecha.ToString("yyyy-MM-dd")
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NumeroFactura)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.Nombrecliente)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Documentocliente)
+        </td>
+   
+        <td>
+            @Html.DisplayFor(modelItem => item.Total)
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "Edit", new { id = item.IdFactura }) |
+            @Html.ActionLink("Detalle", "Details", new { id = item.IdFactura }) |
+            @Html.ActionLink("Eliminar", "Delete", new { id = item.IdFactura })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="PruebaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="PruebaEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="empleados" EntityType="PruebaModel.empleados" />
+    <EntitySet Name="grupo" EntityType="PruebaModel.grupo" />
+    <AssociationSet Name="FK_Empelado_REFERENCE_grupo" Association="PruebaModel.FK_Empelado_REFERENCE_grupo">
+      <End Role="grupo" EntitySet="grupo" />
+      <End Role="empleados" EntitySet="empleados" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Empelado_REFERENCE_maestro" Association="PruebaModel.FK_Empelado_REFERENCE_maestro">
+      <End Role="empleados" EntitySet="empleados" />
+      <End Role="empleados1" EntitySet="empleados" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="empleados">
+    <Key>
+      <PropertyRef Name="empleadoId" />
+    </Key>
+    <Property Name="empleadoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nombre" Type="String" Nullable="false" MaxLength="800" FixedLength="false" Unicode="false" />
+    <Property Name="código" Type="Int32" Nullable="false" />
+    <Property Name="puesto" Type="String" Nullable="false" MaxLength="800" FixedLength="false" Unicode="false" />
+    <Property Name="sueldo" Type="Int32" Nullable="false" />
+    <Property Name="empleadoMaestroId" Type="Int32" />
+    <Property Name="grupoId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="grupo" Relationship="PruebaModel.FK_Empelado_REFERENCE_grupo" FromRole="empleados" ToRole="grupo" />
+    <NavigationProperty Name="empleados1" Relationship="PruebaModel.FK_Empelado_REFERENCE_maestro" FromRole="empleados" ToRole="empleados1" />
+    <NavigationProperty Name="empleados2" Relationship="PruebaModel.FK_Empelado_REFERENCE_maestro" FromRole="empleados1" ToRole="empleados" />
+  </EntityType>
+  <EntityType Name="grupo">
+    <Key>
+      <PropertyRef Name="grupoId" />
+    </Key>
+    <Property Name="grupoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nombreoficina" Type="String" Nullable="false" MaxLength="800" FixedLength="false" Unicode="false" />
+    <Property Name="codigoArea" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="empleados" Relationship="PruebaModel.FK_Empelado_REFERENCE_grupo" FromRole="grupo" ToRole="empleados" />
+  </EntityType>
+  <Association Name="FK_Empelado_REFERENCE_grupo">
+    <End Type="PruebaModel.grupo" Role="grupo" Multiplicity="1" />
+    <End Type="PruebaModel.empleados" Role="empleados" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="grupo">
+        <PropertyRef Name="grupoId" />
+      </Principal>
+      <Dependent Role="empleados">
+        <PropertyRef Name="grupoId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Empelado_REFERENCE_maestro">
+    <End Type="PruebaModel.empleados" Role="empleados" Multiplicity="0..1" />
+    <End Type="PruebaModel.empleados" Role="empleados1" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="empleados">
+        <PropertyRef Name="empleadoId" />
+      </Principal>
+      <Dependent Role="empleados1">
+        <PropertyRef Name="empleadoMaestroId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
